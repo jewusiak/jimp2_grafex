@@ -14,7 +14,7 @@ public class Point {
         return id;
     }
 
-    public addAdjacent(Point point){
-        
+    public void addAdjacent(Point point){
+        adjacent.add(point);
     }
 }
