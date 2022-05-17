@@ -1,31 +1,37 @@
 package grafex;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Point{
     private final int id;
-    private List<Integer> adjacent;
+    private final List<Relation> adjacent;
 
     Point(int id) {
         this.id = id;
+        adjacent=new ArrayList<>();
     }
 
     public int getId() {
         return id;
     }
 
-    public void addAdjacent(int id){
-        adjacent.add(id);
+    public void createRelation(Point point, double weight){
+        adjacent.add(new Relation(this, point, weight));
     }
 
-    public List<Integer> getAdjacent() {
+    public void addRelation(Relation relation){
+        adjacent.add(relation);
+    }
+
+    public List<Relation> getAdjacent() {
         return adjacent;
     }
 
-    public Integer getUpperAdjacent(Graph graph){
-        return adjacent.stream().filter((p)->p==id-graph.getColumns()).findFirst().orElse(null);
+    public Relation getUpperAdjacent(Graph graph){
+        return adjacent.stream().filter((p)->p.getLast().id==id-graph.getColumns()).findFirst().orElse(null);
 
 
     }

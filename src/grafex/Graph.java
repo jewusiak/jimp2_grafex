@@ -27,7 +27,8 @@ public class Graph {
             points.add(new Point(i));
     }
 
-
+    public Graph() {
+    }
 
     public static Graph readFromFile() {
         //czytamy graf z pliku i zwracamy viewable/nonviewable graph w zależności od typu grafu.
@@ -47,5 +48,7 @@ public class Graph {
         return rows;
     }
 
-
+    public void createRelation(int from, Point adjacent){
+        //points.get(from).addRelation(new Relation);
+    }
 }
