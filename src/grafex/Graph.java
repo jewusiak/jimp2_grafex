@@ -1,14 +1,51 @@
 package grafex;
 
 
-public abstract class Graph {
+import java.util.ArrayList;
+import java.util.List;
 
-    public abstract int getSize();
+public class Graph {
 
-    public static Graph readFromFile(){
+
+    private List<Point> points;
+
+    private int rows;
+    private int columns;
+
+
+    public int getSize() {
+        return rows * columns;
+    }
+
+    //TODO: konstruktor jako generator z danych z gui
+
+    public Graph(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
+        points=new ArrayList<>();
+        for(int i=0;i<rows*columns;i++)
+            points.add(new Point(i));
+    }
+
+
+
+    public static Graph readFromFile() {
         //czytamy graf z pliku i zwracamy viewable/nonviewable graph w zależności od typu grafu.
-        return new ViewableGraph(10,2);
+        return new Graph();
         //return new NonViewableGraph();
     }
+
+    public List<Point> getPoints() {
+        return points;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
 
 }

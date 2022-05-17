@@ -1,10 +1,12 @@
 package grafex;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
-public class Point {
+public class Point{
     private final int id;
-    private List<Point> adjacent;
+    private List<Integer> adjacent;
 
     Point(int id) {
         this.id = id;
@@ -14,7 +16,17 @@ public class Point {
         return id;
     }
 
-    public void addAdjacent(Point point){
-        adjacent.add(point);
+    public void addAdjacent(int id){
+        adjacent.add(id);
+    }
+
+    public List<Integer> getAdjacent() {
+        return adjacent;
+    }
+
+    public Integer getUpperAdjacent(Graph graph){
+        return adjacent.stream().filter((p)->p==id-graph.getColumns()).findFirst().orElse(null);
+
+
     }
 }
