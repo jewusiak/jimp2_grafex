@@ -45,7 +45,7 @@ public class Graph {
      * Metoda zapisuje otwarty graf do pliku.
      */
     public void saveToFile(String filename) {
-
+        //TODO: zapis grafu do pliku
     }
 
     /*
