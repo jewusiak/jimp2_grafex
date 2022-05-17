@@ -1,21 +1,21 @@
 package grafex;
 
 public class Relation {
-    private final Point first;
-    private final Point last;
+    private final int first;
+    private final int last;
     private final double weight;
 
-    public Relation(Point first, Point last, double weight) {
+    public Relation(int first, int last, double weight) {
         this.first = first;
         this.last = last;
         this.weight = weight;
     }
 
-    public Point getFirst() {
+    public int getFirst() {
         return first;
     }
 
-    public Point getLast() {
+    public int getLast() {
         return last;
     }
 
