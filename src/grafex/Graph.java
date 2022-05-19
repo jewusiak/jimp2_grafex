@@ -99,9 +99,37 @@ public class Graph {
     }
 
 
-    double rand (double min, double max) {
+    private double rand (double w_min, double w_max) {
         Random r=new Random();
-        return( min + (max - min) * r.nextDouble());
+        return( w_min + (w_max - w_min) * r.nextDouble());
     }
 
+    public void genGraph (GraphGenInfo graphGenInfo){
+        this();
+        double w_min= graphGenInfo.getWeightBottom();
+        double w_max= graphGenInfo.getWeightTop();
+        int rows = graphGenInfo.getRows();
+        int columns= graphGenInfo.getColumns();
+        for (int r = 0; r < rows; r++){
+            for (int c = 0; c < columns; c++){
+
+                if (r != rows-1 && c!=columns-1 ){
+                    createRelation(c+r*columns,c+1+r*columns,rand(w_min,w_max));
+                    createRelation(c+1+r*columns,c+r*columns,rand(w_min,w_max));
+                    createRelation(c+r*columns,c+columns+r*columns,rand(w_min,w_max));
+                    createRelation(c+columns+r*columns,c+r*columns,rand(w_min,w_max));
+                }
+                if (r == rows-1 && c != columns - 1){
+                    createRelation(c+r*columns,c+1+r*columns,rand(w_min,w_max));
+                    createRelation(c+1+r*columns,c+r*columns,rand(w_min,w_max));
+
+                }
+                if(r !=  rows - 1  && c == columns-1){
+                    createRelation(c+r*columns,c+columns+r*columns,rand(w_min,w_max));
+                    createRelation(c+columns+r*columns,c+r*columns,rand(w_min,w_max));
+                }
+
+            }
+        }
+    }
 }
