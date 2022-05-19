@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JUnit" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="JUnit.JUnit" />
+    <module name="jimp2_grafex" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

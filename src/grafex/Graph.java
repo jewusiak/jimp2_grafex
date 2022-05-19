@@ -10,18 +10,14 @@ public class Graph {
 
     private final List<Relation> relations;
 
-    private final int rows;
-    private final int columns;
+    private int rows;
+    private int columns;
 
 
     /*
      * Prywatny konstruktor do użycia przy generowniu i wczytywaniu grafu z pliku.
      */
-    private Graph(int rows, int columns) {
-        if (rows < 1 || columns < 1)
-            throw new IllegalArgumentException("Liczba rzędów i liczba kolumn muszą być >=1!");
-        this.rows = rows;
-        this.columns = columns;
+    private Graph() {
         relations = new ArrayList<>();
     }
 
@@ -30,7 +26,10 @@ public class Graph {
      */
     public Graph(String filename) {
         //TODO: napisanie konstruktora czytającego z pliku
-        this(0, 1);
+        this();
+        //tutaj czytanie wielkosci grafu z pliku
+        setSize(0, 1); //ustawienie wielkości grafu
+        //czytanie grafu dalej - dodawanie relacji
     }
 
     /*
@@ -38,7 +37,17 @@ public class Graph {
      */
     public Graph(GraphGenInfo graphGenInfo) {
         //TODO: napisanie konstruktora grafu z GUI
-        this(0, 1);
+        this();
+        //ustwaiamy wielkość grafu jak wyżej i dalej generujemmy relacje
+    }
+
+    private void setSize(int rows, int columns) {
+
+        if (rows < 1 || columns < 1)
+            throw new IllegalArgumentException("Liczba rzędów i liczba kolumn muszą być >=1!");
+        this.rows = rows;
+        this.columns = columns;
+
     }
 
     /*

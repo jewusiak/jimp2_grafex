@@ -34,6 +34,6 @@ public class GraphPath {
         String rs = "";
         for (int i = 0; i < points.size() - 1; i++) rs += points.get(i) + " -> ";
 
-        return rs + points.get(points.size() - 1);
+        return rs + points.get(points.size() - 1) + " (" + getTotalLength() + ")";
     }
 }
