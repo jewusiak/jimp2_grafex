@@ -4,6 +4,7 @@ package grafex;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Random;
 
 public class Graph {
 
@@ -96,4 +97,11 @@ public class Graph {
     public List<Integer> getAdjacent(int from) {
         return relations.stream().filter((p) -> p.getFirst() == from).map(Relation::getLast).collect(Collectors.toList());
     }
+
+
+    double rand (double min, double max) {
+        Random r=new Random();
+        return( min + (max - min) * r.nextDouble());
+    }
+
 }
