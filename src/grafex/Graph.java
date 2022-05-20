@@ -40,7 +40,96 @@ public class Graph {
         //TODO: napisanie konstruktora grafu z GUI
         this();
         //ustwaiamy wielkość grafu jak wyżej i dalej generujemmy relacje
+        double w_min= graphGenInfo.getWeightBottom();
+        double w_max= graphGenInfo.getWeightTop();
+        int rows = graphGenInfo.getRows();
+        int columns= graphGenInfo.getColumns();
+        int probability =3; // procentowa szansa na wygenerowanie niespójnego wierzchołka
+
+        setSize(rows,columns);
+
+        if(graphGenInfo.getCoherency()==GraphGenInfo.Coherency.YES) {
+
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < columns; c++) {
+
+                    if (r != rows - 1 && c != columns - 1 ) {
+                        createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
+                        createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
+                        createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
+                        createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
+                    }
+                    else if (r == rows - 1 && c != columns - 1) {
+                        createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
+                        createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
+
+                    }
+                    else if (r != rows - 1 && c == columns - 1) {
+                        createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
+                        createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
+                    }
+                }
+
+            }
+        } else if (graphGenInfo.getCoherency()==GraphGenInfo.Coherency.NO) {
+
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < columns; c++) {
+
+                    if(r==0 && c==0){
+                        continue;
+                    }
+                    else if (r != rows - 1 && c != columns - 1 ) {
+                        createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
+                        createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
+                        createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
+                        createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
+                    }
+                    else if (r == rows - 1 && c != columns - 1) {
+                        createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
+                        createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
+
+                    }
+                    else if (r != rows - 1 && c == columns - 1) {
+                        createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
+                        createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
+                    }
+                }
+
+            }
+
+        }
+        else if(graphGenInfo.getCoherency()==GraphGenInfo.Coherency.RANDOM) {
+
+            Random coh=new Random();
+
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < columns; c++) {
+
+                    int prob =coh.nextInt(100);
+
+                    if (r != rows - 1 && c != columns - 1 && prob > probability) {
+                        createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
+                        createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
+                        createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
+                        createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
+                    }
+                    else if (r == rows - 1 && c != columns - 1 && prob > probability) {
+                        createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
+                        createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
+
+                    }
+                    else if (r != rows - 1 && c == columns - 1 && prob > probability) {
+                        createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
+                        createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
+                    }
+                }
+
+            }
+        }
+
     }
+
 
     private void setSize(int rows, int columns) {
 
@@ -104,32 +193,5 @@ public class Graph {
         return( w_min + (w_max - w_min) * r.nextDouble());
     }
 
-    public void genGraph (GraphGenInfo graphGenInfo){
-        this();
-        double w_min= graphGenInfo.getWeightBottom();
-        double w_max= graphGenInfo.getWeightTop();
-        int rows = graphGenInfo.getRows();
-        int columns= graphGenInfo.getColumns();
-        for (int r = 0; r < rows; r++){
-            for (int c = 0; c < columns; c++){
 
-                if (r != rows-1 && c!=columns-1 ){
-                    createRelation(c+r*columns,c+1+r*columns,rand(w_min,w_max));
-                    createRelation(c+1+r*columns,c+r*columns,rand(w_min,w_max));
-                    createRelation(c+r*columns,c+columns+r*columns,rand(w_min,w_max));
-                    createRelation(c+columns+r*columns,c+r*columns,rand(w_min,w_max));
-                }
-                if (r == rows-1 && c != columns - 1){
-                    createRelation(c+r*columns,c+1+r*columns,rand(w_min,w_max));
-                    createRelation(c+1+r*columns,c+r*columns,rand(w_min,w_max));
-
-                }
-                if(r !=  rows - 1  && c == columns-1){
-                    createRelation(c+r*columns,c+columns+r*columns,rand(w_min,w_max));
-                    createRelation(c+columns+r*columns,c+r*columns,rand(w_min,w_max));
-                }
-
-            }
-        }
-    }
 }

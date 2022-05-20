@@ -1,7 +1,7 @@
 package grafex;
 
 public class GraphGenInfo {
-    private enum Coherency {YES, NO, RANDOM}
+    public enum Coherency {YES, NO, RANDOM}
 
     private final int rows;
     private final int columns;
