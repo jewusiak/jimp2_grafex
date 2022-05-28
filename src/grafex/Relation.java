@@ -1,6 +1,6 @@
 package grafex;
 
-public class Relation {
+public class Relation  {
     private final int first;
     private final int last;
     private final double weight;
@@ -22,4 +22,6 @@ public class Relation {
     public double getWeight() {
         return weight;
     }
+
+
 }

@@ -1,10 +1,14 @@
 package grafex;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.util.*;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.Random;
 
 public class Graph {
 
@@ -18,19 +22,42 @@ public class Graph {
     /*
      * Prywatny konstruktor do użycia przy generowniu i wczytywaniu grafu z pliku.
      */
-    private Graph() {
+    //TODO: czy ten konstuktor ma być private?
+    public Graph() {
         relations = new ArrayList<>();
     }
 
     /*
      * Konstruktor który czyta z pliku.
      */
-    public Graph(String filename) {
-        //TODO: napisanie konstruktora czytającego z pliku
+    public Graph(String filename) throws Exception {
         this();
-        //tutaj czytanie wielkosci grafu z pliku
-        setSize(0, 1); //ustawienie wielkości grafu
-        //czytanie grafu dalej - dodawanie relacji
+
+
+        Scanner s = new Scanner(new File(filename));
+
+        if (s.hasNextLine()) {
+            String sline = s.nextLine();
+            String[] slines = sline.trim().split("\\s+");
+            if (!Pattern.matches("\\s*\\d+\\s+\\d+\\s*", sline) || slines.length != 2)
+                throw new Exception("Zły format rozmiaru grafu w linii 1.");
+            setSize(Integer.parseInt(slines[0]), Integer.parseInt(slines[1]));
+        }
+
+        int n = 0;
+        Pattern relationPattern = Pattern.compile("\\s*\\d+\\s*:\\s*\\d+.?\\d*");
+        while (s.hasNextLine()) {
+            String line = s.nextLine();
+            if (!line.matches("^(\\s*\\d+\\s*:\\s*\\d+.?\\d*\\s*)*$"))
+                throw new Exception("Zły format w linii " + (n + 2) + "!");
+            for (String x : relationPattern.matcher(line).results().map(MatchResult::group).collect(Collectors.toList())) {
+                String[] parts = x.split(":");
+                createRelation(n, Integer.parseInt(parts[0].trim()), Double.parseDouble(parts[1].trim()));
+            }
+            n++;
+        }
+
+
     }
 
     /*
@@ -40,57 +67,51 @@ public class Graph {
         //TODO: napisanie konstruktora grafu z GUI
         this();
         //ustwaiamy wielkość grafu jak wyżej i dalej generujemmy relacje
-        double w_min= graphGenInfo.getWeightBottom();
-        double w_max= graphGenInfo.getWeightTop();
+        double w_min = graphGenInfo.getWeightBottom();
+        double w_max = graphGenInfo.getWeightTop();
         int rows = graphGenInfo.getRows();
-        int columns= graphGenInfo.getColumns();
-        int probability =3; // procentowa szansa na wygenerowanie niespójnego wierzchołka
+        int columns = graphGenInfo.getColumns();
+        int probability = 3; // procentowa szansa na wygenerowanie niespójnego wierzchołka
 
-        setSize(rows,columns);
+        setSize(rows, columns);
 
-        if(graphGenInfo.getCoherency()==GraphGenInfo.Coherency.YES) {
+        if (graphGenInfo.getCoherency() == GraphGenInfo.Coherency.YES) {
 
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < columns; c++) {
 
-                    if (r != rows - 1 && c != columns - 1 ) {
+                    if (r != rows - 1 && c != columns - 1) {
                         createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
                         createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
                         createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
                         createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
-                    }
-                    else if (r == rows - 1 && c != columns - 1) {
+                    } else if (r == rows - 1 && c != columns - 1) {
                         createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
                         createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
 
-                    }
-                    else if (r != rows - 1 && c == columns - 1) {
+                    } else if (r != rows - 1 && c == columns - 1) {
                         createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
                         createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
                     }
                 }
 
             }
-        } else if (graphGenInfo.getCoherency()==GraphGenInfo.Coherency.NO) {
+        } else if (graphGenInfo.getCoherency() == GraphGenInfo.Coherency.NO) {
 
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < columns; c++) {
-
-                    if(r==0 && c==0){
+                    if (r == 0 && c == 0) {
                         continue;
-                    }
-                    else if (r != rows - 1 && c != columns - 1 ) {
+                    } else if (r != rows - 1 && c != columns - 1) {
                         createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
                         createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
                         createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
                         createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
-                    }
-                    else if (r == rows - 1 && c != columns - 1) {
+                    } else if (r == rows - 1 && c != columns - 1) {
                         createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
                         createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
 
-                    }
-                    else if (r != rows - 1 && c == columns - 1) {
+                    } else if (r != rows - 1 && c == columns - 1) {
                         createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
                         createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
                     }
@@ -98,28 +119,25 @@ public class Graph {
 
             }
 
-        }
-        else if(graphGenInfo.getCoherency()==GraphGenInfo.Coherency.RANDOM) {
+        } else if (graphGenInfo.getCoherency() == GraphGenInfo.Coherency.RANDOM) {
 
-            Random coh=new Random();
+            Random coh = new Random();
 
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < columns; c++) {
 
-                    int prob =coh.nextInt(100);
+                    int prob = coh.nextInt(100);
 
                     if (r != rows - 1 && c != columns - 1 && prob > probability) {
                         createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
                         createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
                         createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
                         createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
-                    }
-                    else if (r == rows - 1 && c != columns - 1 && prob > probability) {
+                    } else if (r == rows - 1 && c != columns - 1 && prob > probability) {
                         createRelation(c + r * columns, c + 1 + r * columns, rand(w_min, w_max));
                         createRelation(c + 1 + r * columns, c + r * columns, rand(w_min, w_max));
 
-                    }
-                    else if (r != rows - 1 && c == columns - 1 && prob > probability) {
+                    } else if (r != rows - 1 && c == columns - 1 && prob > probability) {
                         createRelation(c + r * columns, c + columns + r * columns, rand(w_min, w_max));
                         createRelation(c + columns + r * columns, c + r * columns, rand(w_min, w_max));
                     }
@@ -133,8 +151,7 @@ public class Graph {
 
     private void setSize(int rows, int columns) {
 
-        if (rows < 1 || columns < 1)
-            throw new IllegalArgumentException("Liczba rzędów i liczba kolumn muszą być >=1!");
+        if (rows < 1 || columns < 1) throw new IllegalArgumentException("Liczba rzędów i liczba kolumn muszą być >=1!");
         this.rows = rows;
         this.columns = columns;
 
@@ -188,9 +205,9 @@ public class Graph {
     }
 
 
-    private double rand (double w_min, double w_max) {
-        Random r=new Random();
-        return( w_min + (w_max - w_min) * r.nextDouble());
+    private double rand(double w_min, double w_max) {
+        Random r = new Random();
+        return (w_min + (w_max - w_min) * r.nextDouble());
     }
 
 
