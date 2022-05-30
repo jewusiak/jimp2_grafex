@@ -1,9 +1,6 @@
 package grafex;
 
 
-import org.jetbrains.annotations.NotNull;
-import org.junit.platform.engine.support.discovery.SelectorResolver;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -37,7 +34,8 @@ public class Graph {
     public Graph(String filename) throws Exception {
         this();
 
-        if (!Pattern.compile("\\.graph$").matcher(filename).find()) throw new FileNotFoundException("Nieprawidłowe rozszerzenie / nazwa pliku");
+        if (!Pattern.compile("\\.graph$").matcher(filename).find())
+            throw new FileNotFoundException("Nieprawidłowe rozszerzenie / nazwa pliku");
 
         Scanner s = new Scanner(new File(filename));
 
@@ -66,7 +64,7 @@ public class Graph {
     }
 
     /*
-     * Konstruktor generujący graf z informacji pobranych z GUI. - DONE?
+     * Konstruktor generujący graf z informacji pobranych z GUI. - Filip DONE?
      */
     public Graph(GraphGenInfo graphGenInfo) {
         //TODO: napisanie konstruktora grafu z GUI
@@ -165,7 +163,7 @@ public class Graph {
     }
 
     /*
-     * Metoda zapisuje otwarty graf do pliku.
+     * Metoda zapisuje otwarty graf do pliku. -Filip
      */
     public void saveToFile(String filename) {
         //TODO: zapis grafu do pliku
@@ -252,5 +250,50 @@ public class Graph {
 
     }
 
+    private int getIndexOfSmallestD(double[] d, List<Integer> s) {
+        int ind = -1;
+        for (int i = 0; i < d.length; i++)
+            if (!s.contains(i))
+                if (ind == -1)
+                    ind = i;
+                else if (d[i] < d[ind])
+                    ind = i;
+        return ind;
+
+    }
+
+    public GraphPath findPath(int first, int last) {
+        if (first < 0 || last >= getSize())
+            throw new IndexOutOfBoundsException("ID wierzchołków musi zawierać się między 0 a " + (getSize() - 1));
+        List<Integer> s = new ArrayList<>();
+        Integer[] p = new Integer[getSize()];
+        double[] d = new double[getSize()];
+        Arrays.fill(p, -1);
+        Arrays.fill(d, Double.MAX_VALUE);
+        d[first] = 0;
+        int u = getIndexOfSmallestD(d, s);
+        while (u != -1) {
+            s.add(u);
+            for (Relation r : getPointsRelations(u)) {
+                if (s.contains(r.getLast()))
+                    continue;
+                if (d[r.getLast()] > d[u] + r.getWeight()) {
+                    d[r.getLast()] = d[u] + r.getWeight();
+                    p[r.getLast()] = u;
+                }
+            }
+            u = getIndexOfSmallestD(d, s);
+        }
+
+        GraphPath gp = new GraphPath();
+        int lt = last;
+        while (lt != -1) {
+            gp.addAtFront(lt);
+            lt = p[lt];
+        }
+        gp.setTotalLength(d[last]);
+
+        return gp;
+    }
 
 }

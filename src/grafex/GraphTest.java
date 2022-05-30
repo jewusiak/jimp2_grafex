@@ -87,4 +87,20 @@ class GraphTest {
             assertTrue(e instanceof IllegalFormatFlagsException);
         }
     }
+
+    @Test
+    @DisplayName("Szukanie ścieżki")
+    void findPath(){
+        try {
+            Graph g = new Graph("src/g2_na_3.graph");
+
+            GraphPath gp=g.findPath(1,4);
+
+            //Expected: 1 -> 5 -> 4 (9.067499999999999)
+            assertIterableEquals( Arrays.stream((new Integer[]{1,5,4})).collect(Collectors.toList()), gp.getPoints());
+            assertTrue(9.0674<gp.getTotalLength() && 9.0675>gp.getTotalLength());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }

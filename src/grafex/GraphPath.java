@@ -1,10 +1,16 @@
 package grafex;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GraphPath {
-    private List<Integer> points;
+    private final List<Integer> points;
     private double totalLength;
+
+    public GraphPath(){
+        points=new ArrayList<>();
+        totalLength=-1;
+    }
 
     /*
      * Dodaje id punktu na początek ścieżki.
@@ -26,6 +32,10 @@ public class GraphPath {
 
     public double getTotalLength() {
         return totalLength;
+    }
+
+    public void setTotalLength(double totalLength) {
+        this.totalLength = totalLength;
     }
 
     @Override
