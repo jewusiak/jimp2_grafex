@@ -84,6 +84,7 @@ class GraphTest {
 
             fail();
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             assertTrue(e instanceof IllegalFormatFlagsException);
         }
     }
