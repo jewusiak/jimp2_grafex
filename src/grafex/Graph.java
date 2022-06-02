@@ -3,6 +3,8 @@ package grafex;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -167,7 +169,29 @@ public class Graph {
      */
     public void saveToFile(String filename) {
         //TODO: zapis grafu do pliku
-    }
+        relations.sort(Relation::compareTo);
+        try {
+            FileWriter writer = new FileWriter(filename);
+            writer.write("%d %d\n", getRows(), getColumns());
+            int ile_rel = 0;
+            for (int i = 0; i < getSize(); i++) {
+                while (i == relations.get(ile_rel).getFirst()) {
+                    writer.write(Integer.toString(relations.get(ile_rel).getLast())+" :"+Double.toString(relations.get(ile_rel).getWeight())+" ");
+                    ile_rel+=1;
+
+                }
+                writer.write("\n");
+            }
+            writer.close();
+        }
+            catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+
+
+
 
     /*
      * Zwraca wszystkie relacje. Metoda do użycia przy generowaniu widoku.

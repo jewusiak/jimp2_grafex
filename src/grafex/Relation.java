@@ -23,5 +23,9 @@ public class Relation  {
         return weight;
     }
 
+    public int compareTo(Relation r){
+        return (this.first-r.first);
+    }
+
 
 }
