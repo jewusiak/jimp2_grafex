@@ -4,11 +4,10 @@ package grafex;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.processing.FilerException;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.IllegalFormatFlagsException;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -104,4 +103,18 @@ class GraphTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    @DisplayName("Zapis do pliku")
+    void saveToFile(){
+        try {
+            Graph g=new Graph("src/g2_na_3.graph");
+            g.saveToFile("src/save-test.graph");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            fail(e.getMessage());
+        }
+
+    }
+
 }
