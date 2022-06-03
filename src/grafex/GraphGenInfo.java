@@ -36,4 +36,8 @@ public class GraphGenInfo {
     public double getWeightTop() {
         return weightTop;
     }
+
+    public void setCoherency(Coherency c){
+
+    }
 }
