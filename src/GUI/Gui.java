@@ -1,6 +1,7 @@
 package GUI;
 
 import grafex.Graph;
+import grafexExceptions.GraphNotCoherentException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,11 +59,37 @@ public class Gui extends Application{
         File selectedFile = fileChooser.showOpenDialog(stage);
         String filename = selectedFile.getName();
 
-        try {
-            Graph g = new Graph(filename);
-            setG(g);
 
-        } catch (Exception e){}
+        Graph g = null;
+
+        try {
+            g = new Graph(filename);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        setG(g);
+
+
+
+
+
+    }
+
+    public static void saveFile() {
+        File initialDirectory = new File(System.getProperty("user.dir"));
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open source File");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("All Files", "*.*"));
+        fileChooser.setInitialDirectory(initialDirectory);
+
+        File selectedFile = fileChooser.showSaveDialog(stage);
+        String filename = selectedFile.getName();
+
+        try {
+            graph.saveToFile(filename);
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
 
     }
