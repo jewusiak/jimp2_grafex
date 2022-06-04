@@ -1,5 +1,6 @@
 package GUI;
 
+import grafex.Graph;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,7 +46,7 @@ public class Gui extends Application{
         generujGraf.show();
     }
 
-    public static File chooseFile() {
+    public static void chooseFile() throws Exception {
         File initialDirectory = new File(System.getProperty("user.dir"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open source File");
@@ -53,8 +54,11 @@ public class Gui extends Application{
         fileChooser.setInitialDirectory(initialDirectory);
 
         File selectedFile = fileChooser.showOpenDialog(stage);
+        String filename= selectedFile.getName();
 
-        return selectedFile;
+        //Graph g= new Graph(filename);
+
+        System.out.println(filename);
     }
 
 

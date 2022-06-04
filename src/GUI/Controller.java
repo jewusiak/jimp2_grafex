@@ -4,8 +4,9 @@ import javafx.event.ActionEvent;
 
 public class Controller {
 
-    public void otworz(ActionEvent e){
+    public void otworz(ActionEvent e) throws Exception {
         System.out.println("Otwórz");
+        Gui.chooseFile();
     }
     public void zapisz(ActionEvent e){
      System.out.println("Zapisz");
