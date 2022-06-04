@@ -15,6 +15,7 @@ public class GenerujGraf {
     private Stage stage;
     private Parent root;
     private FXMLLoader loader;
+    private GenControl genControl;
 
 
     public GenerujGraf(Scene rootScene) throws IOException {
@@ -27,6 +28,12 @@ public class GenerujGraf {
         stage.setTitle("Generuj graf");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(rootScene.getWindow());
+    }
+    public void hide() {
+        stage.close();
+    }
+    public void show() {
+        stage.showAndWait();
     }
 
 

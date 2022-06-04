@@ -11,7 +11,9 @@ import javafx.scene.control.Label;
 public class GenControl implements Initializable {
 
 
-    private Button okButton;
+    public void przyciskGen(ActionEvent event) {
+        Gui.hideGG();
+    }
 
 
     @Override

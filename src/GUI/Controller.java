@@ -24,6 +24,10 @@ public class Controller {
         System.out.println("Zmień skalę kolorów");
     }
 
+    public void generuj(ActionEvent e){
+        Gui.showGG();
+    }
+
 
 
 }

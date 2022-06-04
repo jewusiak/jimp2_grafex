@@ -15,7 +15,7 @@
             <MenuItem mnemonicParsing="false" onAction="#zamknij" text="Zamknij" />
         </Menu>
         <Menu mnemonicParsing="false" text="Graf">
-         <MenuItem mnemonicParsing="false" text="Generuj graf" />
+         <MenuItem mnemonicParsing="false" onAction="#generuj" text="Generuj graf" />
             <MenuItem mnemonicParsing="false" onAction="#czysc" text="Czyść graf" />
             <MenuItem mnemonicParsing="false" onAction="#wybierz" text="Wybierz punkty ścieżki" />
         </Menu>
