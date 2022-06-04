@@ -30,6 +30,8 @@ public class Graph {
     //TODO: czy ten konstuktor ma być private?
     public Graph() {
         relations = new ArrayList<>();
+rows=0;
+columns=0;
     }
 
     /*
