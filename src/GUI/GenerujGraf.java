@@ -1,0 +1,37 @@
+package GUI;
+
+
+
+import java.io.IOException;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+public class GenerujGraf {
+    private Stage stage;
+    private Parent root;
+    private FXMLLoader loader;
+
+
+    public GenerujGraf(Scene rootScene) throws IOException {
+        loader = new FXMLLoader(getClass().getResource("Gen.fxml"));
+        root = loader.load();
+
+
+        stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Generuj graf");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(rootScene.getWindow());
+    }
+
+
+
+
+
+
+}

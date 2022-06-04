@@ -3,8 +3,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioMenuItem?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,26 +10,17 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
     <MenuBar blendMode="DARKEN" layoutY="1.0" prefHeight="25.0" prefWidth="463.0">
         <Menu mnemonicParsing="false" text="Plik">
-            <MenuItem mnemonicParsing="false" text="Otwórz" />
+            <MenuItem mnemonicParsing="false" onAction="#otworz" text="Otwórz" />
             <MenuItem mnemonicParsing="false" onAction="#zapisz" text="Zapisz jako" />
-            <MenuItem mnemonicParsing="false" text="Zamknij" />
+            <MenuItem mnemonicParsing="false" onAction="#zamknij" text="Zamknij" />
         </Menu>
         <Menu mnemonicParsing="false" text="Graf">
-         <Menu mnemonicParsing="false" text="Generuj graf">
-            <items>
-               <RadioMenuItem mnemonicParsing="false" text="Graf spójny">
-                  <toggleGroup>
-                     <ToggleGroup fx:id="spoj" />
-                  </toggleGroup>
-               </RadioMenuItem>
-               <RadioMenuItem mnemonicParsing="false" text="Graf niespójny" toggleGroup="$spoj" />
-               <RadioMenuItem mnemonicParsing="false" text="Losowa spójność grafu" toggleGroup="$spoj" />
-            </items></Menu>
-            <MenuItem mnemonicParsing="false" text="Czyść graf" />
-            <MenuItem mnemonicParsing="false" text="Wybierz punkty ścieżki" />
+         <MenuItem mnemonicParsing="false" text="Generuj graf" />
+            <MenuItem mnemonicParsing="false" onAction="#czysc" text="Czyść graf" />
+            <MenuItem mnemonicParsing="false" onAction="#wybierz" text="Wybierz punkty ścieżki" />
         </Menu>
         <Menu mnemonicParsing="false" text="Widok">
-            <MenuItem mnemonicParsing="false" text="Zmień skalę kolorów" />
+            <MenuItem mnemonicParsing="false" onAction="#skala" text="Zmień skalę kolorów" />
         </Menu>
     </MenuBar>
    <ImageView fitHeight="330.0" fitWidth="463.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
