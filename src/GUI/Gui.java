@@ -21,6 +21,8 @@ public class Gui extends Application{
     private static Controller controller;
     private static GenerujGraf generujGraf;
 
+    public static Graph graph;
+
     @Override
     public void start(Stage stage) throws IOException {
         // primary stage setup
@@ -46,7 +48,7 @@ public class Gui extends Application{
         generujGraf.show();
     }
 
-    public static void chooseFile() throws Exception {
+    public static void chooseFile(){
         File initialDirectory = new File(System.getProperty("user.dir"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open source File");
@@ -54,11 +56,15 @@ public class Gui extends Application{
         fileChooser.setInitialDirectory(initialDirectory);
 
         File selectedFile = fileChooser.showOpenDialog(stage);
-        String filename= selectedFile.getName();
+        String filename = selectedFile.getName();
 
-        //Graph g= new Graph(filename);
+        try {
+            Graph g = new Graph(filename);
+            setG(g);
 
-        System.out.println(filename);
+        } catch (Exception e){}
+
+
     }
 
 
@@ -68,11 +74,20 @@ public class Gui extends Application{
         return loader.load();
     }
 
+    public static void setG(Graph g)
+    {
+        graph=g;
+    }
+
 
 
     public static void main(String[] args){
         launch(args);
     }
+
+
+
+
 
 
 }

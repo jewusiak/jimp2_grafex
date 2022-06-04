@@ -1,10 +1,12 @@
 package GUI;
 
+import grafex.Graph;
+import grafexExceptions.GraphNotCoherentException;
 import javafx.event.ActionEvent;
 
 public class Controller {
 
-    public void otworz(ActionEvent e) throws Exception {
+    public void otworz(ActionEvent e){
         System.out.println("Otwórz");
         Gui.chooseFile();
     }
@@ -15,11 +17,11 @@ public class Controller {
         System.out.println("Zamknij");
     }
     public void czysc(ActionEvent e){
-        System.out.println("Czyść");
+        Gui.setG(new Graph());
     }
 
-    public void wybierz(ActionEvent e){
-        System.out.println("Wybierz punkty ścieżki");
+    public void wybierz(ActionEvent e) throws GraphNotCoherentException {
+        System.out.println(Gui.graph.findPath(1,2));
     }
     public void skala(ActionEvent e){
         System.out.println("Zmień skalę kolorów");
