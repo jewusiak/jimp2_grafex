@@ -1,8 +1,7 @@
 package grafex;
 
 
-import grafexExceptions.GraphNotCoherentException;
-import grafexExceptions.IllegalGraphFormatException;
+import grafexExceptions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,8 +29,8 @@ public class Graph {
     //TODO: czy ten konstuktor ma być private?
     public Graph() {
         relations = new ArrayList<>();
-rows=0;
-columns=0;
+        rows = 0;
+        columns = 0;
     }
 
     /*
@@ -260,9 +259,9 @@ columns=0;
 
     }
 
-    public GraphPath findPath(int first, int last) throws GraphNotCoherentException {
-        if (first < 0 || last >= getSize())
-            throw new IndexOutOfBoundsException("ID wierzchołków musi zawierać się między 0 a " + (getSize() - 1));
+    public GraphPath findPath(int first, int last) throws GraphException {
+        if (getSize() == 0) throw new EmptyGraphException();
+        if (first < 0 || last >= getSize()) throw new GraphIndexOutOfBoundsException(getSize() - 1);
         if (!isCoherent())
             throw new GraphNotCoherentException("Graf nie jest spójny. Wymagana jest spójnosć do algorytmu Dijkstry.", getIncoherent());
         List<Integer> s = new ArrayList<>();
@@ -293,5 +292,10 @@ columns=0;
         gp.setTotalLength(d[last]);
 
         return gp;
+    }
+
+    @Override
+    public String toString() {
+        return "Graph{" + "relations=" + relations + ", incoherent=" + incoherent + ", rows=" + rows + ", columns=" + columns + '}';
     }
 }

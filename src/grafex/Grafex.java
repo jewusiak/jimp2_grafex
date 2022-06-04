@@ -1,7 +1,10 @@
 package grafex;
 
+
+import GUI.Gui;
+
 public class Grafex {
     public static void main(String[] args) {
-        Graph d = new Graph();
+        Gui.main(args);
     }
 }

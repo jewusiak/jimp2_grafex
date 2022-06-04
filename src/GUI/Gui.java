@@ -22,13 +22,13 @@ public class Gui extends Application{
     private static Controller controller;
     private static GenerujGraf generujGraf;
 
-    public static Graph graph;
+    public static Graph graph = new Graph();
 
     @Override
     public void start(Stage stage) throws IOException {
         // primary stage setup
         Gui.stage = stage;
-        String fxmlFileName = new String("GUI");
+        String fxmlFileName = "GUI";
         scene = new Scene(loadFXML(fxmlFileName));
 
         stage.setScene(scene);
@@ -41,23 +41,29 @@ public class Gui extends Application{
     }
 
 
-        public static void hideGG() {
-            generujGraf.hide();
-         }
+    public static void hideGG() {
+        generujGraf.hide();
+    }
 
     public static void showGG() {
         generujGraf.show();
     }
 
-    public static void chooseFile(){
+
+    //TODO: error message jeżeli czytanie grafu rzuci exception
+    public static void chooseFile() {
         File initialDirectory = new File(System.getProperty("user.dir"));
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open source File");
-        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("All Files", "*.*"));
+        fileChooser.setTitle("Otwórz graf");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Pliki grafu", "*.graph"));
         fileChooser.setInitialDirectory(initialDirectory);
 
         File selectedFile = fileChooser.showOpenDialog(stage);
-        String filename = selectedFile.getName();
+        if (selectedFile == null) {
+            System.out.println("Nie wybrano pliku!");
+            return;
+        }
+        String filename = selectedFile.getPath();
 
 
         Graph g = null;
@@ -70,7 +76,7 @@ public class Gui extends Application{
         setG(g);
 
 
-
+        System.out.println(g.toString());
 
 
     }
@@ -78,16 +84,20 @@ public class Gui extends Application{
     public static void saveFile() {
         File initialDirectory = new File(System.getProperty("user.dir"));
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open source File");
-        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("All Files", "*.*"));
+        fileChooser.setTitle("Zapisz jako");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Plik grafu", "*.graph"));
         fileChooser.setInitialDirectory(initialDirectory);
 
         File selectedFile = fileChooser.showSaveDialog(stage);
-        String filename = selectedFile.getName();
+        if (selectedFile == null) {
+            System.out.println("Nie wybrano pliku!");
+            return;
+        }
+        String filename = selectedFile.getPath();
 
         try {
             graph.saveToFile(filename);
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -95,20 +105,20 @@ public class Gui extends Application{
     }
 
 
-
     private static Parent loadFXML(String fxml) throws IOException {
         loader = new FXMLLoader(Gui.class.getResource(fxml + ".fxml"));
         return loader.load();
     }
 
-    public static void setG(Graph g)
-    {
-        graph=g;
+
+    //TODO: zmiana na private
+    public static void setG(Graph g) {
+        graph = g;
     }
 
 
-
-    public static void main(String[] args){
+    //TODO: czy przenosimy to do main w grafex?
+    public static void main(String[] args) {
         launch(args);
     }
 

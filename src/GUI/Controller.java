@@ -1,6 +1,7 @@
 package GUI;
 
 import grafex.Graph;
+import grafexExceptions.GraphException;
 import grafexExceptions.GraphNotCoherentException;
 import javafx.event.ActionEvent;
 
@@ -23,10 +24,10 @@ public class Controller {
     }
 
     public void wybierz(ActionEvent e) {
-
         try {
-            System.out.println(Gui.graph.findPath(1,2));
-        } catch (GraphNotCoherentException ex) {
+            //TODO: jeżeli graf nie został wczytany (czyli Gui.graph=null, to co wtedy? Wywala nullpointerexception
+            System.out.println(Gui.graph.findPath(1, 2));
+        } catch (GraphException ex) {
             System.out.println(ex.getMessage());
         }
 
