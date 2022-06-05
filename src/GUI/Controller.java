@@ -17,7 +17,7 @@ public class Controller {
      Gui.saveFile();
     }
     public void zamknij(ActionEvent e){
-        System.out.println("Zamknij");
+        Gui.setG(new Graph());
     }
     public void czysc(ActionEvent e){
         Gui.setG(new Graph());
@@ -29,6 +29,8 @@ public class Controller {
             System.out.println(Gui.graph.findPath(1, 2));
         } catch (GraphException ex) {
             System.out.println(ex.getMessage());
+            Gui.showSS(ex.getMessage());
+
         }
 
 

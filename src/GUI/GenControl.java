@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import grafex.Graph;
 import grafex.GraphGenInfo;
+import grafexExceptions.GraphException;
 import grafexExceptions.GraphNotCoherentException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +36,7 @@ public class GenControl implements Initializable {
     private RadioButton ranspoj;
 
 
-    public void przyciskGen(ActionEvent event) throws GraphNotCoherentException {
+    public void przyciskGen(ActionEvent event){
         int col=Integer.parseInt(columnsField.getText());
         int rows=Integer.parseInt(rowsField.getText());
         double minWeight=Double.parseDouble(minWeightField.getText());
@@ -51,7 +52,7 @@ public class GenControl implements Initializable {
             coh= GraphGenInfo.Coherency.RANDOM;
         }
 
-        Graph g= new Graph(new GraphGenInfo(rows,col,coh,minWeight,maxWeight));
+        Graph g = new Graph(new GraphGenInfo(rows, col, coh, minWeight, maxWeight));
         Gui.setG(g);
 
         Gui.hideGG();

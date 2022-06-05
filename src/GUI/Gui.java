@@ -21,6 +21,7 @@ public class Gui extends Application{
     private static FXMLLoader loader;
     private static Controller controller;
     private static GenerujGraf generujGraf;
+    private static Alert alert;
 
     public static Graph graph = new Graph();
 
@@ -38,6 +39,8 @@ public class Gui extends Application{
         controller = loader.getController();
 
         generujGraf= new GenerujGraf( scene);
+
+        alert=new Alert(scene);
     }
 
 
@@ -50,6 +53,14 @@ public class Gui extends Application{
     }
 
 
+    public static void hideSS() {
+        alert.hideS();
+    }
+
+    public static void showSS(String message) {
+        alert.showS(message);
+    }
+
     //TODO: error message jeżeli czytanie grafu rzuci exception
     public static void chooseFile() {
         File initialDirectory = new File(System.getProperty("user.dir"));
@@ -58,9 +69,12 @@ public class Gui extends Application{
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Pliki grafu", "*.graph"));
         fileChooser.setInitialDirectory(initialDirectory);
 
+
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile == null) {
             System.out.println("Nie wybrano pliku!");
+            showSS("Nie wybrano pliku!");
+
             return;
         }
         String filename = selectedFile.getPath();
@@ -72,6 +86,8 @@ public class Gui extends Application{
             g = new Graph(filename);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            showSS(e.getMessage());
+
         }
         setG(g);
 
@@ -98,6 +114,7 @@ public class Gui extends Application{
         try {
             graph.saveToFile(filename);
         } catch (Exception ex) {
+            showSS(ex.getMessage());
             System.out.println(ex.getMessage());
         }
 
@@ -121,10 +138,5 @@ public class Gui extends Application{
     public static void main(String[] args) {
         launch(args);
     }
-
-
-
-
-
 
 }
