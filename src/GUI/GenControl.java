@@ -52,6 +52,15 @@ public class GenControl implements Initializable {
             coh= GraphGenInfo.Coherency.RANDOM;
         }
 
+        if( col<1 ||rows<1){
+            Gui.showSS("Liczba kolumn i wierszy musi być większa od 0!");
+            return;
+        }
+        if(maxWeight<=0 || minWeight<=0){
+            Gui.showSS("Waga musi być większa od 0!");
+            return;
+        }
+
         Graph g = new Graph(new GraphGenInfo(rows, col, coh, minWeight, maxWeight));
         Gui.setG(g);
 
