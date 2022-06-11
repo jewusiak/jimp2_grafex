@@ -37,27 +37,36 @@ public class GenControl implements Initializable {
 
 
     public void przyciskGen(ActionEvent event){
-        int col=Integer.parseInt(columnsField.getText());
-        int rows=Integer.parseInt(rowsField.getText());
-        double minWeight=Double.parseDouble(minWeightField.getText());
-        double maxWeight=Double.parseDouble(maxWeightField.getText());
-        GraphGenInfo.Coherency coh= GraphGenInfo.Coherency.YES;
-        if (sspoj.isSelected()){
-            coh= GraphGenInfo.Coherency.YES;
+
+        GraphGenInfo.Coherency coh = GraphGenInfo.Coherency.YES;
+        if (sspoj.isSelected()) {
+            coh = GraphGenInfo.Coherency.YES;
+        } else if (nspoj.isSelected()) {
+            coh = GraphGenInfo.Coherency.NO;
+        } else if (ranspoj.isSelected()) {
+            coh = GraphGenInfo.Coherency.RANDOM;
         }
-        else if (nspoj.isSelected()){
-            coh= GraphGenInfo.Coherency.NO;
-        }
-        else if (ranspoj.isSelected()){
-            coh= GraphGenInfo.Coherency.RANDOM;
+        if (columnsField.getText().isEmpty() || rowsField.getText().isEmpty() || minWeightField.getText().isEmpty() || maxWeightField.getText().isEmpty()) {
+            Gui.showSS("Nie wypełniono wszystkich pól w oknie.");
+            return;
         }
 
-        if( col<1 ||rows<1){
+        int col = Integer.parseInt(columnsField.getText());
+        int rows = Integer.parseInt(rowsField.getText());
+        double minWeight = Double.parseDouble(minWeightField.getText());
+        double maxWeight = Double.parseDouble(maxWeightField.getText());
+
+
+        if (col < 1 || rows < 1) {
             Gui.showSS("Liczba kolumn i wierszy musi być większa od 0!");
             return;
         }
-        if(maxWeight<=0 || minWeight<=0){
+        if (maxWeight <= 0 || minWeight <= 0) {
             Gui.showSS("Waga musi być większa od 0!");
+            return;
+        }
+        if (minWeight > maxWeight) {
+            Gui.showSS("Waga maksymalna być większa od minimalnej!");
             return;
         }
 

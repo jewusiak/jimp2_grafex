@@ -1,6 +1,6 @@
 package grafexExceptions;
 
-public class GraphException extends Exception{
+public abstract class GraphException extends Exception {
     public GraphException(String message) {
         super(message);
     }

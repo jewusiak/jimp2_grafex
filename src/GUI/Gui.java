@@ -1,54 +1,29 @@
 package GUI;
 
 import grafex.Graph;
-import grafexExceptions.GraphNotCoherentException;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-
-
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 
-public class Gui extends Application{
+public class Gui extends Application {
 
 
+    public static Graph graph;
     private static Stage stage;
     private static Scene scene;
     private static FXMLLoader loader;
     private static Controller controller;
     private static GenerujGraf generujGraf;
     private static Alert alert;
-
-    public static Graph graph = new Graph();
-
-    @Override
-    public void start(Stage stage) throws IOException {
-        // primary stage setup
-        Gui.stage = stage;
-        String fxmlFileName = "GUI";
-        scene = new Scene(loadFXML(fxmlFileName));
-
-        stage.setScene(scene);
-        stage.setTitle("Grafex");
-        stage.show();
-        stage.setResizable(false);
-        controller = loader.getController();
-
-        generujGraf= new GenerujGraf( scene);
-
-        alert=new Alert(scene);
-        graph=null;
-    }
-
 
     public static void hideGG() {
         generujGraf.hide();
@@ -57,7 +32,6 @@ public class Gui extends Application{
     public static void showGG() {
         generujGraf.show();
     }
-
 
     public static void hideSS() {
         alert.hideS();
@@ -80,40 +54,41 @@ public class Gui extends Application{
         if (selectedFile == null) {
             System.out.println("Nie wybrano pliku!");
             showSS("Nie wybrano pliku!");
-
+            setG(new Graph());
             return;
         }
         String filename = selectedFile.getPath();
 
 
-        Graph g = null;
+        Graph g = new Graph();
 
         try {
             g = new Graph(filename);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             showSS(e.getMessage());
 
         }
         setG(g);
 
 
-        System.out.println(g.toString());
+        System.out.println(g);
 
 
     }
+
     public static void drawGraph(Pane pane) {
-        int r=graph.getRows();
-        int c=graph.getColumns();
-        int x=10;
-        int y=10;
-        for(int i=0;i<r;i++){
-            y=10;
-            x+=12;
-            for(int j=0;j<c;j++){
-                Circle circle = new Circle( x, y, 5);
+        pane.getChildren().clear();
+        int c = graph.getRows();
+        int r = graph.getColumns();
+        int x = 10;
+        int y = 10;
+        for (int i = 0; i < r; i++) {
+            y = 10;
+            x += 12;
+            for (int j = 0; j < c; j++) {
+                Circle circle = new Circle(x, y, 5);
                 pane.getChildren().add(circle);
-                y+=12;
+                y += 12;
 
             }
         }
@@ -143,26 +118,38 @@ public class Gui extends Application{
 
     }
 
-
-
-
     private static Parent loadFXML(String fxml) throws IOException {
         loader = new FXMLLoader(Gui.class.getResource(fxml + ".fxml"));
         return loader.load();
     }
-
 
     //TODO: zmiana na private
     public static void setG(Graph g) {
         graph = g;
     }
 
-
-
-
     //TODO: czy przenosimy to do main w grafex?
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        // primary stage setup
+        Gui.stage = stage;
+        String fxmlFileName = "GUI";
+        scene = new Scene(loadFXML(fxmlFileName));
+
+        stage.setScene(scene);
+        stage.setTitle("Grafex");
+        stage.show();
+        stage.setResizable(false);
+        controller = loader.getController();
+
+        generujGraf = new GenerujGraf(scene);
+
+        alert = new Alert(scene);
+        graph = new Graph();
     }
 
 }

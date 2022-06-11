@@ -34,7 +34,7 @@ public class Graph {
     }
 
     /*
-     * Konstruktor który czyta z pliku. - DONE
+     * Konstruktor który czyta z pliku.
      */
     public Graph(String filename) throws Exception {
         this();
@@ -69,10 +69,9 @@ public class Graph {
     }
 
     /*
-     * Konstruktor generujący graf z informacji pobranych z GUI. - Filip DONE?
+     * Konstruktor generujący graf z informacji pobranych z GUI.
      */
     public Graph(GraphGenInfo graphGenInfo) {
-        //TODO: napisanie konstruktora grafu z GUI
         this();
         //ustwaiamy wielkość grafu jak wyżej i dalej generujemmy relacje
         double w_min = graphGenInfo.getWeightBottom();
@@ -163,7 +162,9 @@ public class Graph {
     /*
      * Metoda zapisuje otwarty graf do pliku. -Filip
      */
-    public void saveToFile(String filename) throws IOException {
+    public void saveToFile(String filename) throws IOException, EmptyGraphException {
+        if (getRows() == 0 || getColumns() == 0)
+            throw new EmptyGraphException();
         //TODO: zapis grafu do pliku
         relations.sort(Relation::compareTo);
         FileWriter writer = new FileWriter(filename);

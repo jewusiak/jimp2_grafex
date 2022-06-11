@@ -8,17 +8,21 @@
 
 <AnchorPane prefHeight="355.0" prefWidth="283.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GenControl">
    <children>
-      <Button layoutX="116.0" layoutY="316.0" mnemonicParsing="false" onAction="#przyciskGen" text="Generuj" />
+      <Button layoutX="116.0" layoutY="316.0" mnemonicParsing="false" onAction="#przyciskGen" text="Generuj"/>
       <RadioButton fx:id="sspoj" layoutX="22.0" layoutY="216.0" mnemonicParsing="false" text="Graf spójny">
          <toggleGroup>
-            <ToggleGroup fx:id="spoj" />
+            <ToggleGroup fx:id="spoj"/>
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="nspoj" layoutX="22.0" layoutY="241.0" mnemonicParsing="false" text="Graf niespójny" toggleGroup="$spoj" />
-      <RadioButton fx:id="ranspoj" layoutX="21.0" layoutY="266.0" mnemonicParsing="false" text="Losowa szansa na spójność" toggleGroup="$spoj" />
-      <TextField fx:id="columnsField" layoutX="22.0" layoutY="37.0" prefHeight="25.0" prefWidth="225.0" promptText="Wpisz ilość kolumn" />
-      <TextField fx:id="rowsField" layoutX="22.0" layoutY="77.0" prefHeight="25.0" prefWidth="225.0" promptText="Wpisz ilość wierszy" />
-      <TextField fx:id="minWeightField" layoutX="70.0" layoutY="129.0" promptText="Wpisz minimalną wagę" />
-      <TextField fx:id="maxWeightField" layoutX="71.0" layoutY="165.0" promptText="Wpisz maksymalną wagę" />
+      <RadioButton fx:id="nspoj" layoutX="22.0" layoutY="241.0" mnemonicParsing="false" text="Graf niespójny"
+                   toggleGroup="$spoj"/>
+      <RadioButton fx:id="ranspoj" layoutX="21.0" layoutY="266.0" mnemonicParsing="false"
+                   text="Losowa szansa na spójność" toggleGroup="$spoj"/>
+      <TextField fx:id="rowsField" layoutX="22.0" layoutY="37.0" prefHeight="25.0" prefWidth="225.0"
+                 promptText="Wpisz ilość wierszy"/>
+      <TextField fx:id="columnsField" layoutX="22.0" layoutY="77.0" prefHeight="25.0" prefWidth="225.0"
+                 promptText="Wpisz ilość kolumn"/>
+      <TextField fx:id="minWeightField" layoutX="70.0" layoutY="129.0" promptText="Wpisz minimalną wagę"/>
+      <TextField fx:id="maxWeightField" layoutX="71.0" layoutY="165.0" promptText="Wpisz maksymalną wagę"/>
    </children>
 </AnchorPane>
