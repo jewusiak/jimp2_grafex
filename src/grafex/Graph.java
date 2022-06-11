@@ -299,4 +299,8 @@ public class Graph {
     public String toString() {
         return "Graph{" + "relations=" + relations + ", incoherent=" + incoherent + ", rows=" + rows + ", columns=" + columns + '}';
     }
+
+    public int calculatePointID(int row, int column){
+        return row*getColumns()+column;
+    }
 }

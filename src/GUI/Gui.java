@@ -1,17 +1,21 @@
 package GUI;
 
 import grafex.Graph;
+import grafex.Relation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -98,25 +102,50 @@ public class Gui extends Application {
 
     }
 
+
+
+    private static Point calculateCirclePosition(int id, int circleRadius, int betweenCircles){
+        int xStart=10;
+        int yStart=10;
+        int xID=id%graph.getColumns();
+        int yID=id/ graph.getColumns();
+
+
+        return new Point(xStart+xID*(circleRadius*2+betweenCircles), yStart+yID*(circleRadius*2+betweenCircles));
+
+    }
+
+
+
+
     public static void drawGraph(ScrollPane paneIn) {
         Pane pane = new Pane();
-        int circleRadius=2;
-        int betweenCircles=1; //pomiędzy najbliższymi 2 równoległymi stycznymi każdego z okręgów
+        pane.setPadding(new Insets(10,10,10,0));
+        int circleRadius=4;
+        int betweenCircles=3;
+        int r = graph.getRows();
+        int c = graph.getColumns();
 
-        int c = graph.getRows(); // Zamieniłem tu miejscami r i c aby generowało widok w dobrą stronę
-        int r = graph.getColumns();
-        int x = 10;
-        int y = 10;
+        for(Relation rel:graph.getRelations()){
+            Point first=calculateCirclePosition(rel.getFirst(), circleRadius, betweenCircles);
+            Point last=calculateCirclePosition(rel.getLast(), circleRadius, betweenCircles);
+            Line l=new Line(first.x, first.y, last.x, last.y);
+            pane.getChildren().add(l);
+        }
+
+
+
         for (int i = 0; i < r; i++) {
-            y = 10;
-            x += circleRadius*2+betweenCircles;
             for (int j = 0; j < c; j++) {
-                Circle circle = new Circle(x, y, circleRadius);
+                int pid= graph.calculatePointID(i,j);
+                Circle circle = new GraphCircle(calculateCirclePosition(pid, circleRadius, betweenCircles), circleRadius, pid);
                 pane.getChildren().add(circle);
-                y += circleRadius*2+betweenCircles;
 
             }
         }
+
+
+
         paneIn.setContent(pane);
     }
 

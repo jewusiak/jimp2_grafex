@@ -20,4 +20,5 @@
         </Menu>
     </MenuBar>
     <ScrollPane fx:id="pane" layoutX="-3.0" layoutY="27.0" prefHeight="529.0" prefWidth="643.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0" />
+   <Label layoutX="599.0" layoutY="6.0" text=" " AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="6.0" />
 </AnchorPane>
