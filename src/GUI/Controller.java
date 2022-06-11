@@ -4,10 +4,16 @@ import grafex.Graph;
 import grafexExceptions.GraphException;
 import grafexExceptions.GraphNotCoherentException;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.shape.Circle;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
 public class Controller {
+    @FXML
+    private Pane pane;
+
 
     public void otworz(ActionEvent e){
         Gui.chooseFile();
@@ -31,6 +37,9 @@ public class Controller {
             System.out.println(ex.getMessage());
             Gui.showSS(ex.getMessage());
 
+        }catch (NullPointerException ex){
+
+            Gui.showSS("Graf pusty. Wybierz graf");
         }
 
 
@@ -42,6 +51,15 @@ public class Controller {
     public void generuj(ActionEvent e){
         Gui.showGG();
     }
+    public void rysuj(){
+        Gui.drawGraph(pane);
+    }
+
+
+
+
+
+    public void wybierzWierz(ActionEvent e){};
 
 
 

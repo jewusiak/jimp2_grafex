@@ -3,18 +3,23 @@ package GUI;
 import grafex.Graph;
 import grafexExceptions.GraphNotCoherentException;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+
 
 
 import java.io.File;
 import java.io.IOException;
 
 public class Gui extends Application{
+
 
     private static Stage stage;
     private static Scene scene;
@@ -41,6 +46,7 @@ public class Gui extends Application{
         generujGraf= new GenerujGraf( scene);
 
         alert=new Alert(scene);
+        graph=null;
     }
 
 
@@ -96,6 +102,22 @@ public class Gui extends Application{
 
 
     }
+    public static void drawGraph(Pane pane) {
+        int r=graph.getRows();
+        int c=graph.getColumns();
+        int x=10;
+        int y=10;
+        for(int i=0;i<r;i++){
+            y=10;
+            x+=10;
+            for(int j=0;j<c;i++){
+                Circle circle = new Circle( x, y, 5);
+                pane.getChildren().add(circle);
+                y+=10;
+
+            }
+        }
+    }
 
     public static void saveFile() {
         File initialDirectory = new File(System.getProperty("user.dir"));
@@ -122,6 +144,8 @@ public class Gui extends Application{
     }
 
 
+
+
     private static Parent loadFXML(String fxml) throws IOException {
         loader = new FXMLLoader(Gui.class.getResource(fxml + ".fxml"));
         return loader.load();
@@ -132,6 +156,8 @@ public class Gui extends Application{
     public static void setG(Graph g) {
         graph = g;
     }
+
+
 
 
     //TODO: czy przenosimy to do main w grafex?

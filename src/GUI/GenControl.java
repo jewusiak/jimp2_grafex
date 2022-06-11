@@ -65,6 +65,7 @@ public class GenControl implements Initializable {
         Gui.setG(g);
 
         Gui.hideGG();
+
     }
 
 
