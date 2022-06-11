@@ -17,6 +17,7 @@ public class Controller {
 
     public void otworz(ActionEvent e){
         Gui.chooseFile();
+        rysuj();
     }
     public void zapisz(ActionEvent e){
      System.out.println("Zapisz");
@@ -50,6 +51,7 @@ public class Controller {
 
     public void generuj(ActionEvent e){
         Gui.showGG();
+        rysuj();
     }
     public void rysuj(){
         Gui.drawGraph(pane);

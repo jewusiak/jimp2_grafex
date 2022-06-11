@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
     <MenuBar blendMode="DARKEN" layoutY="1.0" prefHeight="25.0" prefWidth="463.0">
         <Menu mnemonicParsing="false" text="Plik">
             <MenuItem mnemonicParsing="false" onAction="#otworz" text="Otwórz" />
@@ -22,5 +22,5 @@
             <MenuItem mnemonicParsing="false" onAction="#skala" text="Zmień skalę kolorów" />
         </Menu>
     </MenuBar>
-   <Pane fx:id="pane" layoutX="-3.0" layoutY="26.0" prefHeight="421.0" prefWidth="463.0" />
+   <Pane fx:id="pane" layoutX="-3.0" layoutY="26.0" prefHeight="530.0" prefWidth="643.0" />
 </AnchorPane>

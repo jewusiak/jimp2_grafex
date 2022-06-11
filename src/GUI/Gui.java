@@ -109,11 +109,11 @@ public class Gui extends Application{
         int y=10;
         for(int i=0;i<r;i++){
             y=10;
-            x+=10;
-            for(int j=0;j<c;i++){
+            x+=12;
+            for(int j=0;j<c;j++){
                 Circle circle = new Circle( x, y, 5);
                 pane.getChildren().add(circle);
-                y+=10;
+                y+=12;
 
             }
         }
