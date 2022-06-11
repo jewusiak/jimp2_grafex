@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -76,8 +77,8 @@ public class Gui extends Application {
 
     }
 
-    public static void drawGraph(Pane pane) {
-        pane.getChildren().clear();
+    public static void drawGraph(ScrollPane paneIn) {
+        Pane pane = new Pane();
         int c = graph.getRows();
         int r = graph.getColumns();
         int x = 10;
@@ -92,6 +93,7 @@ public class Gui extends Application {
 
             }
         }
+        paneIn.setContent(pane);
     }
 
     public static void saveFile() {

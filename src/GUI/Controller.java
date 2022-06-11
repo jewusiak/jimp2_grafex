@@ -4,11 +4,12 @@ import grafex.Graph;
 import grafexExceptions.GraphException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 public class Controller {
     @FXML
-    private Pane pane;
+    private ScrollPane pane;
 
 
     public void otworz(ActionEvent e) {
