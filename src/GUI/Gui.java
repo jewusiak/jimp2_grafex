@@ -42,6 +42,27 @@ public class Gui extends Application {
         alert.showS(message);
     }
 
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        // primary stage setup
+        Gui.stage = stage;
+        String fxmlFileName = "GUI";
+        scene = new Scene(loadFXML(fxmlFileName));
+
+        stage.setScene(scene);
+        stage.setTitle("Grafex");
+        stage.show();
+        stage.setResizable(true);
+        controller = loader.getController();
+
+        generujGraf = new GenerujGraf(scene);
+
+        alert = new Alert(scene);
+        graph = new Graph();
+    }
+
+
     //TODO: error message jeżeli czytanie grafu rzuci exception
     public static void chooseFile() {
         File initialDirectory = new File(System.getProperty("user.dir"));
@@ -79,17 +100,20 @@ public class Gui extends Application {
 
     public static void drawGraph(ScrollPane paneIn) {
         Pane pane = new Pane();
-        int c = graph.getRows();
+        int circleRadius=2;
+        int betweenCircles=1; //pomiędzy najbliższymi 2 równoległymi stycznymi każdego z okręgów
+
+        int c = graph.getRows(); // Zamieniłem tu miejscami r i c aby generowało widok w dobrą stronę
         int r = graph.getColumns();
         int x = 10;
         int y = 10;
         for (int i = 0; i < r; i++) {
             y = 10;
-            x += 12;
+            x += circleRadius*2+betweenCircles;
             for (int j = 0; j < c; j++) {
-                Circle circle = new Circle(x, y, 5);
+                Circle circle = new Circle(x, y, circleRadius);
                 pane.getChildren().add(circle);
-                y += 12;
+                y += circleRadius*2+betweenCircles;
 
             }
         }
@@ -118,6 +142,7 @@ public class Gui extends Application {
         }
 
 
+
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -135,23 +160,5 @@ public class Gui extends Application {
         launch(args);
     }
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        // primary stage setup
-        Gui.stage = stage;
-        String fxmlFileName = "GUI";
-        scene = new Scene(loadFXML(fxmlFileName));
-
-        stage.setScene(scene);
-        stage.setTitle("Grafex");
-        stage.show();
-        stage.setResizable(false);
-        controller = loader.getController();
-
-        generujGraf = new GenerujGraf(scene);
-
-        alert = new Alert(scene);
-        graph = new Graph();
-    }
 
 }
