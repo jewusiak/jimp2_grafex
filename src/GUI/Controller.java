@@ -84,7 +84,10 @@ public class Controller {
                 try {
                     GraphPath res = Gui.graph.findPath(selectedEnds.get(0), selectedEnds.get(selectedEnds.size() - 1));
 
-                    Platform.runLater(() -> Gui.drawPath(pane, res));
+                    Platform.runLater(() -> {
+                        Gui.drawPath(pane, res);
+                        Gui.showSS("Długość: " + res.getTotalLength());
+                    });
                 } catch (GraphException e) {
                     Platform.runLater(() -> {
                         Gui.showSS(e.getMessage());
