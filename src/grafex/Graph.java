@@ -1,7 +1,12 @@
 package grafex;
 
 
+import GUI.Controller;
+import GUI.Gui;
 import grafexExceptions.*;
+import javafx.application.Platform;
+import javafx.collections.ObservableArray;
+import javafx.scene.control.ProgressBar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -139,7 +144,7 @@ public class Graph {
         return (w_min + (w_max - w_min) * r.nextDouble());
     }
 
-    private static int getIndexOfSmallestD(double[] d, List<Integer> s) {
+    private static int getIndexOfSmallestD(double[] d, Collection<Integer> s) {
         int ind = -1;
         for (int i = 0; i < d.length; i++)
             if (!s.contains(i)) if (ind == -1) ind = i;
@@ -232,10 +237,13 @@ public class Graph {
         return incoherent;
     }
 
+    private Boolean coherency=null;
+
     /*
      * Sprawdza spójność grafu. Działa an bazie algorytmu BFS.
      */
     public boolean isCoherent() {
+        if(coherency!=null) return coherency;
         Queue<Integer> q = new ArrayDeque<>();
 
 
@@ -256,32 +264,48 @@ public class Graph {
         incoherent = new ArrayList<>();
         for (int i = 0; i < visited.length; i++) if (visited[i] == 0) incoherent.add(i);
 
-        return incoherent.size() == 0;
+        coherency=incoherent.size() == 0;
+
+        return coherency;
 
     }
+
+    private int[] p=null;
+    public double[] d=null;
+
+
 
     public GraphPath findPath(int first, int last) throws GraphException {
         if (getSize() == 0) throw new EmptyGraphException();
         if (first < 0 || last >= getSize()) throw new GraphIndexOutOfBoundsException(getSize() - 1);
         if (!isCoherent())
             throw new GraphNotCoherentException("Graf nie jest spójny. Wymagana jest spójnosć do algorytmu Dijkstry.", getIncoherent());
-        List<Integer> s = new ArrayList<>();
-        Integer[] p = new Integer[getSize()];
-        double[] d = new double[getSize()];
-        Arrays.fill(p, -1);
-        Arrays.fill(d, Double.MAX_VALUE);
-        d[first] = 0;
-        int u = getIndexOfSmallestD(d, s);
-        while (u != -1) {
-            s.add(u);
-            for (Relation r : getPointsRelations(u)) {
-                if (s.contains(r.getLast())) continue;
-                if (d[r.getLast()] > d[u] + r.getWeight()) {
-                    d[r.getLast()] = d[u] + r.getWeight();
-                    p[r.getLast()] = u;
+        if (p==null || d==null) {
+
+            Gui.controller.progressBar.setVisible(true);
+            double pUnit=1d/getSize();
+            HashSet<Integer> s = new HashSet<>();
+
+            p = new int[getSize()];
+            d = new double[getSize()];
+            Arrays.fill(p, -1);
+            Arrays.fill(d, Double.MAX_VALUE);
+            d[first] = 0d;
+            int u = getIndexOfSmallestD(d, s);
+            while (u != -1) {
+                s.add(u);
+                Platform.runLater(()-> Gui.controller.progressBar.setProgress(Double.min(Gui.controller.progressBar.getProgress()+pUnit, 1d)));
+                for (Relation r : getPointsRelations(u)) {
+                    if (s.contains(r.getLast())) continue;
+                    if (d[r.getLast()] > d[u] + r.getWeight()) {
+                        d[r.getLast()] = d[u] + r.getWeight();
+                        p[r.getLast()] = u;
+                    }
                 }
+                u = getIndexOfSmallestD(d, s);
             }
-            u = getIndexOfSmallestD(d, s);
+
+
         }
 
         GraphPath gp = new GraphPath();

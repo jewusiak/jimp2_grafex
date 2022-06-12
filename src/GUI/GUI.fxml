@@ -13,12 +13,12 @@
         <Menu mnemonicParsing="false" text="Graf">
          <MenuItem mnemonicParsing="false" onAction="#generuj" text="Generuj graf" />
             <MenuItem mnemonicParsing="false" onAction="#czysc" text="Czyść graf" />
-            <MenuItem mnemonicParsing="false" onAction="#wybierz" text="Wybierz punkty ścieżki" />
+            <MenuItem mnemonicParsing="false" onAction="#wybierz" text="Wybierz/wyczyść punkty ścieżki" />
         </Menu>
         <Menu mnemonicParsing="false" text="Widok">
             <MenuItem mnemonicParsing="false" onAction="#skala" text="Zmień skalę kolorów" />
         </Menu>
     </MenuBar>
     <ScrollPane fx:id="pane" layoutX="-3.0" layoutY="27.0" prefHeight="529.0" prefWidth="643.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0" />
-   <Label layoutX="599.0" layoutY="6.0" text=" " AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="6.0" />
+   <ProgressBar fx:id="progressBar" layoutX="429.0" layoutY="5.0" prefWidth="200.0" progress="0.0" visible="false" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="5.0" />
 </AnchorPane>
