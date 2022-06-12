@@ -1,12 +1,9 @@
 package grafex;
 
 
-import GUI.Controller;
 import GUI.Gui;
 import grafexExceptions.*;
 import javafx.application.Platform;
-import javafx.collections.ObservableArray;
-import javafx.scene.control.ProgressBar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,13 +17,13 @@ import java.util.stream.Collectors;
 public class Graph {
 
 
-    private final List<Relation> relations;
-
+    private final ArrayList<Relation> relations;
+    public double[] d = null;
     private List<Integer> incoherent = null;
-
     private int rows;
     private int columns;
-
+    private Boolean coherency = null;
+    private int[] p = null;
 
     /*
      * Prywatny konstruktor do użycia przy generowniu i wczytywaniu grafu z pliku.
@@ -217,16 +214,37 @@ public class Graph {
 
     /*
      * Zwraca listę relacji dla danego punktu from.
+     * MUSI BYĆ ZAPEWNIONE POSORTOWANIE RELACJI!!
      */
     public List<Relation> getPointsRelations(int from) {
-        return relations.stream().filter((p) -> p.getFirst() == from).collect(Collectors.toList());
+        List<Relation> adj = new ArrayList<>();
+        for (int i = 0; i < relations.size(); i++)
+            if (relations.get(i).getFirst() == from) {
+                while (relations.get(i).getFirst() == from) {
+                    adj.add(relations.get(i++));
+                    if (i >= relations.size()) break;
+                }
+                break;
+            }
+        return adj;
+
     }
 
     /*
      * Zwraca listę id (int) sąsiadów.
+     * MUSI BYĆ ZAPEWNIONE POSORTOWANIE RELACJI!!
      */
     public List<Integer> getAdjacent(int from) {
-        return relations.stream().filter((p) -> p.getFirst() == from).map(Relation::getLast).collect(Collectors.toList());
+        List<Integer> adj = new ArrayList<>();
+        for (int i = 0; i < relations.size(); i++)
+            if (relations.get(i).getFirst() == from) {
+                while (relations.get(i).getFirst() == from) {
+                    adj.add(relations.get(i++).getLast());
+                    if (i >= relations.size()) break;
+                }
+                break;
+            }
+        return adj;
     }
 
     /*
@@ -237,13 +255,17 @@ public class Graph {
         return incoherent;
     }
 
-    private Boolean coherency=null;
-
     /*
      * Sprawdza spójność grafu. Działa an bazie algorytmu BFS.
      */
     public boolean isCoherent() {
-        if(coherency!=null) return coherency;
+        if (coherency != null) return coherency;
+
+        Platform.runLater(() -> Gui.controller.progressBar.setProgress(0));
+        double pUnit = 1d / getSize();
+
+        relations.sort(Relation::compareTo);
+
         Queue<Integer> q = new ArrayDeque<>();
 
 
@@ -258,32 +280,32 @@ public class Graph {
                 if (visited[x] != 1) {
                     q.add(x);
                     visited[x] = 1;
+                    Platform.runLater(() -> Gui.controller.progressBar.setProgress(Double.min(Gui.controller.progressBar.getProgress() + pUnit, 1d)));
                 }
         }
 
         incoherent = new ArrayList<>();
         for (int i = 0; i < visited.length; i++) if (visited[i] == 0) incoherent.add(i);
 
-        coherency=incoherent.size() == 0;
+        coherency = incoherent.size() == 0;
 
         return coherency;
 
     }
-
-    private int[] p=null;
-    public double[] d=null;
-
-
 
     public GraphPath findPath(int first, int last) throws GraphException {
         if (getSize() == 0) throw new EmptyGraphException();
         if (first < 0 || last >= getSize()) throw new GraphIndexOutOfBoundsException(getSize() - 1);
         if (!isCoherent())
             throw new GraphNotCoherentException("Graf nie jest spójny. Wymagana jest spójnosć do algorytmu Dijkstry.", getIncoherent());
-        if (p==null || d==null) {
+        if (p == null || d == null) {
 
-            Gui.controller.progressBar.setVisible(true);
-            double pUnit=1d/getSize();
+
+            double pUnit = 1d / getSize();
+            Platform.runLater(() -> Gui.controller.progressBar.setProgress(0));
+
+            relations.sort(Relation::compareTo);
+
             HashSet<Integer> s = new HashSet<>();
 
             p = new int[getSize()];
@@ -294,7 +316,7 @@ public class Graph {
             int u = getIndexOfSmallestD(d, s);
             while (u != -1) {
                 s.add(u);
-                Platform.runLater(()-> Gui.controller.progressBar.setProgress(Double.min(Gui.controller.progressBar.getProgress()+pUnit, 1d)));
+                Platform.runLater(() -> Gui.controller.progressBar.setProgress(Double.min(Gui.controller.progressBar.getProgress() + pUnit, 1d)));
                 for (Relation r : getPointsRelations(u)) {
                     if (s.contains(r.getLast())) continue;
                     if (d[r.getLast()] > d[u] + r.getWeight()) {
@@ -324,7 +346,7 @@ public class Graph {
         return "Graph{" + "relations=" + relations + ", incoherent=" + incoherent + ", rows=" + rows + ", columns=" + columns + '}';
     }
 
-    public int calculatePointID(int row, int column){
-        return row*getColumns()+column;
+    public int calculatePointID(int row, int column) {
+        return row * getColumns() + column;
     }
 }

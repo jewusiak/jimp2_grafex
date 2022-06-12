@@ -4,12 +4,10 @@ import grafex.Graph;
 import grafex.GraphPath;
 import grafex.Relation;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -20,7 +18,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-import java.awt.Point;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,8 +30,8 @@ public class Gui extends Application {
     private static final int betweenCircles = 3;
     public static Graph graph;
     public static Controller controller;
-    private static Stage stage;
     public static Scene scene;
+    private static Stage stage;
     private static FXMLLoader loader;
     private static GenerujGraf generujGraf;
     private static Alert alert;
@@ -127,22 +125,23 @@ public class Gui extends Application {
         }
 
         Double maxLength = null;
-        Integer selPid=null;
+        Integer selPid = null;
         if (d != null) {
             maxLength = Arrays.stream(d).max().orElse(1);
-            selPid=Gui.controller.selectedEnds.get(0);
+            selPid = Gui.controller.selectedEnds.get(0);
         }
-
 
 
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
                 int pid = graph.calculatePointID(i, j);
 
-                Color color=(Color)Paint.valueOf("#919191");
-                if (maxLength!=null) {
-                    if (pid==selPid) color=(Color)Paint.valueOf("#ff0000");
-                    color=getColorBetween(d[graph.calculatePointID(i, j)] / maxLength);
+                Color color = (Color) Paint.valueOf("#919191");
+                if (maxLength != null) {
+                    if (pid == selPid)
+                        color = (Color) Paint.valueOf("#00ff00");//"#ff0000");
+                    else
+                        color = getColorBetween(d[graph.calculatePointID(i, j)] / maxLength);
                 }
                 Circle circle = new GraphCircle(calculateCirclePosition(pid), circleRadius, pid, color);
 

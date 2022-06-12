@@ -34,7 +34,7 @@ public class GraphCircle extends Circle {
         setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                GraphCircle.super.setFill(Paint.valueOf("#ff0000"));
+                GraphCircle.super.setFill(Paint.valueOf("#00ff00"));//"#ff0000"));
             }
         });
 

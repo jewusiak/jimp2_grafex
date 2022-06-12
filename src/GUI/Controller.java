@@ -56,23 +56,29 @@ public class Controller {
     public void checkNewPaths() {
         if (selectedEnds == null) return;
         if (selectedEnds.size() < 2) {
-            new Thread(()->{
+            new Thread(() -> {
                 try {
-                Gui.graph.findPath(selectedEnds.get(0), selectedEnds.get(0));
+                    Platform.runLater(() -> Gui.controller.progressBar.setVisible(true));
+                    Gui.graph.findPath(selectedEnds.get(0), selectedEnds.get(0));
 
-                Platform.runLater(() -> Gui.drawGraph(pane, Gui.graph.d));
+                    Platform.runLater(() -> Gui.drawGraph(pane, Gui.graph.d));
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Platform.runLater(() -> Gui.controller.progressBar.setVisible(false));
+                } catch (GraphException e) {
+                    Platform.runLater(() -> {
+                        Gui.showSS(e.getMessage());
+                        selectedEnds = null;
+                        Gui.drawGraph(pane, Gui.graph.d);
 
-            } catch (GraphException e) {
-                Platform.runLater(() -> {
-                    Gui.showSS(e.getMessage());
-                    selectedEnds = null;
-                    rysuj();
+                    });
 
-                });
-
-            }
+                }
             }).start();
-        }else {
+        } else {
             new Thread(() -> {
 
                 try {
@@ -83,7 +89,7 @@ public class Controller {
                     Platform.runLater(() -> {
                         Gui.showSS(e.getMessage());
                         selectedEnds = null;
-                        rysuj();
+                        Gui.drawGraph(pane, Gui.graph.d);
 
                     });
 
@@ -104,8 +110,6 @@ public class Controller {
     public void rysuj() {
         Gui.drawGraph(pane);
     }
-
-
 
 
 }
