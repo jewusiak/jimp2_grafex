@@ -23,6 +23,7 @@ public class ColorChange {
         colorStage.setTitle("Zmień motyw");
         colorStage.initModality(Modality.APPLICATION_MODAL);
         colorStage.initOwner(rootScene.getWindow());
+
     }
 
     public void hideC() {

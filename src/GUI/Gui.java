@@ -39,10 +39,12 @@ public class Gui extends Application {
     private static ColorChange colorChange;
     private static Alert alert;
     //TODO: wybór kolorów w gui
-    private static java.awt.Color c1 = new java.awt.Color(50, 172, 236);
-    private static java.awt.Color c2 = new java.awt.Color(255, 0, 0);
+    public static Color c1 = new Color(50/255d, 172/255d, 236/255d, 1);
+    public static Color c2 = new Color(1, 0, 0,1);
 
-    public static void changeColor(java.awt.Color cc1, java.awt.Color cc2){
+
+
+    public static void changeColor(Color cc1, Color cc2){
         c1=cc1;
         c2=cc2;
     }
@@ -118,8 +120,8 @@ public class Gui extends Application {
 
     }
 
-    private static javafx.scene.paint.Color getColorBetween(double p) {
-        return new javafx.scene.paint.Color((c2.getRed() * p + c1.getRed() * (1d - p)) / 255d, (c2.getGreen() * p + c1.getGreen() * (1d - p)) / 255d, (c2.getBlue() * p + c1.getBlue() * (1d - p)) / 255d, 1);
+    private static Color getColorBetween(double p) {
+        return new Color((c2.getRed() * p + c1.getRed() * (1d - p)) , (c2.getGreen() * p + c1.getGreen() * (1d - p)) , (c2.getBlue() * p + c1.getBlue() * (1d - p)) , 1);
     }
 
     public static void drawGraph(ScrollPane paneIn) {
