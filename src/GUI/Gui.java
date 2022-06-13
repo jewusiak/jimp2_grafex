@@ -31,15 +31,18 @@ public class Gui extends Application {
     public static Graph graph;
     public static Controller controller;
     public static Scene scene;
+
     private static Stage stage;
     private static FXMLLoader loader;
     private static GenerujGraf generujGraf;
+
+    private static ColorChange colorChange;
     private static Alert alert;
     //TODO: wybór kolorów w gui
     private static java.awt.Color c1 = new java.awt.Color(50, 172, 236);
     private static java.awt.Color c2 = new java.awt.Color(255, 0, 0);
 
-    public void changeColor(java.awt.Color cc1, java.awt.Color cc2){
+    public static void changeColor(java.awt.Color cc1, java.awt.Color cc2){
         c1=cc1;
         c2=cc2;
     }
@@ -50,6 +53,14 @@ public class Gui extends Application {
 
     public static void showGG() {
         generujGraf.show();
+
+    }
+
+    public static void hideCC() {
+        colorChange.hideC();
+    }
+    public static void showCC() {
+        colorChange.showC();
 
     }
 
@@ -229,6 +240,8 @@ public class Gui extends Application {
         controller = loader.getController();
 
         generujGraf = new GenerujGraf(scene);
+
+        colorChange=new ColorChange(scene);
 
         alert = new Alert(scene);
         graph = new Graph();

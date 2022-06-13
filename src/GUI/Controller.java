@@ -105,7 +105,7 @@ public class Controller {
     }
 
     public void skala(ActionEvent e) {
-        System.out.println("Zmień skalę kolorów");
+        Gui.showCC();
     }
 
     public void generuj(ActionEvent e) {

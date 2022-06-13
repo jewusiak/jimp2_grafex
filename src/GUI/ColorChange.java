@@ -14,7 +14,7 @@ public class ColorChange {
     private FXMLLoader colorLoader;
 
     public ColorChange(Scene rootScene) throws IOException {
-        colorLoader = new FXMLLoader(getClass().getResource("Gen.fxml"));
+        colorLoader = new FXMLLoader(getClass().getResource("Color.fxml"));
         colorRoot = colorLoader.load();
 
 
@@ -25,11 +25,11 @@ public class ColorChange {
         colorStage.initOwner(rootScene.getWindow());
     }
 
-    public void hide() {
+    public void hideC() {
         colorStage.close();
     }
 
-    public void show() {
+    public void showC() {
         colorStage.showAndWait();
     }
 }
