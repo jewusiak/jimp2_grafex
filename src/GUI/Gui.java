@@ -39,6 +39,11 @@ public class Gui extends Application {
     private static java.awt.Color c1 = new java.awt.Color(50, 172, 236);
     private static java.awt.Color c2 = new java.awt.Color(255, 0, 0);
 
+    public void changeColor(java.awt.Color cc1, java.awt.Color cc2){
+        c1=cc1;
+        c2=cc2;
+    }
+
     public static void hideGG() {
         generujGraf.hide();
     }
