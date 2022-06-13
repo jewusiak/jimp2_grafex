@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ColorChange {
-    private Stage colorStage;
-    private Parent colorRoot;
-    private FXMLLoader colorLoader;
+    private final Stage colorStage;
+    private final Parent colorRoot;
+    private final FXMLLoader colorLoader;
 
     public ColorChange(Scene rootScene) throws IOException {
         colorLoader = new FXMLLoader(getClass().getResource("Color.fxml"));

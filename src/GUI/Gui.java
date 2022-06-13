@@ -74,7 +74,7 @@ public class Gui extends Application {
         alert.showS(message);
     }
 
-    //TODO: error message jeżeli czytanie grafu rzuci exception
+
     public static void chooseFile() {
         File initialDirectory = new File(System.getProperty("user.dir"));
         FileChooser fileChooser = new FileChooser();
@@ -109,6 +109,11 @@ public class Gui extends Application {
 
     }
 
+    /**
+     * Kalkuluje pozycję wierzchołka na planszy w oparciu o promień, odległość między nimi, oraz ID wierzchołka
+     * @param id ID wierzchołka
+     * @return pozycja wierzchołka
+     */
     private static Point calculateCirclePosition(int id) {
         int xStart = 10;
         int yStart = 10;
@@ -120,14 +125,26 @@ public class Gui extends Application {
 
     }
 
+    /**
+     * Kalkuluje kolor pomiędzy dwoma, p=0 - kolor c1, p=1 - kolor c2
+     * @param p współczynnik [0,1]
+     * @return kolor
+     */
     private static Color getColorBetween(double p) {
+        p=Double.min(p, 1d);
         return new Color((c2.getRed() * p + c1.getRed() * (1d - p)) , (c2.getGreen() * p + c1.getGreen() * (1d - p)) , (c2.getBlue() * p + c1.getBlue() * (1d - p)) , 1);
     }
+
 
     public static void drawGraph(ScrollPane paneIn) {
         drawGraph(paneIn, null);
     }
 
+    /**
+     * Rysuje graf na podanym pane, jeżeli d!=null to również koloruje.
+     * @param paneIn pane do rysowania
+     * @param d macierz kosztów dojścia
+     */
     public static void drawGraph(ScrollPane paneIn, double[] d) {
         Pane pane = new Pane();
         pane.setPadding(new Insets(10, 10, 10, 0));
@@ -173,6 +190,12 @@ public class Gui extends Application {
 
     }
 
+
+    /**
+     * Rysuje ścieżkę na widoku grafu
+     * @param pane pane do rysowania
+     * @param path ścieżka
+     */
     public static void drawPath(ScrollPane pane, GraphPath path) {
         Pane p = new Pane();
         p.getChildren().add(pane.getContent());

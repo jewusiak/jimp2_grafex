@@ -3,6 +3,9 @@ package grafex;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa reprezentująca ścieżkę w grafie.
+ */
 public class GraphPath {
     private final List<Integer> points;
     private double totalLength;
@@ -12,15 +15,17 @@ public class GraphPath {
         totalLength=-1;
     }
 
-    /*
+    /**
      * Dodaje id punktu na początek ścieżki.
+     * @param point id punktu
      */
     public void addAtFront(int point) {
         points.add(0, point);
     }
 
-    /*
+    /**
      * Dodaje id punktu na koniec ścieżki.
+     * @param point id punktu
      */
     public void addAtEnd(int point) {
         points.add(point);

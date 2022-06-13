@@ -10,11 +10,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Alert {
-    private Stage stage;
-    private Parent root;
-    private FXMLLoader loader;
+    private final Stage stage;
+    private final Parent root;
+    private final FXMLLoader loader;
 
-    private AlertControl alertControl;
+    private final AlertControl alertControl;
 
     public Alert(Scene rootScene) throws IOException {
         loader = new FXMLLoader(getClass().getResource("Ale.fxml"));

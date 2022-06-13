@@ -42,12 +42,14 @@ public class Controller {
 
     }
 
+    /**
+     * Metoda wywoływana po kliknięciu w przycisk wyboru wierzchołków. Umożliwia wierzchołkowi dodanie swojego id do listy wybranych.
+     */
     public void wybierz(ActionEvent e) {
         if (Gui.graph.getSize() == 0) Gui.showSS("Graf jest pusty!");
         else if (selectedEnds == null) selectedEnds = new ArrayList<>();
         else {
             Gui.graph.d=null;
-
 
             selectedEnds = null;
             rysuj();
@@ -56,6 +58,11 @@ public class Controller {
 
     }
 
+    /**
+     * Metoda wywoływana po kliknięciu w wierzchołek.
+     * selectedEnds.size()==1 - kolorowany jest graf
+     * selectedEnds.size()>1  - rysujemy ścieżki na grafie
+     */
     public void checkNewPaths() {
         if (selectedEnds == null) return;
         if (selectedEnds.size() < 2) {

@@ -12,9 +12,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class GenerujGraf {
-    private Stage stage;
-    private Parent root;
-    private FXMLLoader loader;
+    private final Stage stage;
+    private final Parent root;
+    private final FXMLLoader loader;
     private GenControl genControl;
 
 

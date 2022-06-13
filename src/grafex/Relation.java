@@ -1,5 +1,8 @@
 package grafex;
 
+/**
+ * Klasa reprezentująca relację w grafie Wierzchołek a -> Wierzchołek b.
+ */
 public class Relation  {
     private final int first;
     private final int last;

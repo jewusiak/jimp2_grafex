@@ -14,6 +14,9 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Klasa reprezentująca graf.
+ */
 public class Graph {
 
 
@@ -25,20 +28,22 @@ public class Graph {
     private Boolean coherency = null;
     private int[] p = null;
 
-    /*
-     * Prywatny konstruktor do użycia przy generowniu i wczytywaniu grafu z pliku.
+    /**
+     * Konstruktor pustego grafu
      */
-    //TODO: czy ten konstuktor ma być private?
     public Graph() {
         relations = new ArrayList<>();
         rows = 0;
         columns = 0;
     }
 
-    /*
+    /**
      * Konstruktor który czyta z pliku.
+     * @param filename nazwa pliku
+     * @throws FileNotFoundException jeśli plik nie istnieje
+     * @throws IllegalGraphFormatException jeśli w pliku jest błędne formatowanie
      */
-    public Graph(String filename) throws Exception {
+    public Graph(String filename) throws FileNotFoundException, IllegalGraphFormatException {
         this();
 
         if (!Pattern.compile("\\.graph$").matcher(filename).find())
@@ -60,7 +65,7 @@ public class Graph {
             String line = s.nextLine();
             if (!line.matches("^(\\s*\\d+\\s*:\\s*\\d+.?\\d*\\s*)*$"))
                 throw new IllegalGraphFormatException("Zły format w pliku grafu!", n + 2);
-            for (String x : relationPattern.matcher(line).results().map(MatchResult::group).collect(Collectors.toList())) {
+            for (String x : relationPattern.matcher(line).results().map(MatchResult::group).toList()) {
                 String[] parts = x.split(":");
                 createRelation(n, Integer.parseInt(parts[0].trim()), Double.parseDouble(parts[1].trim()));
             }
@@ -70,8 +75,9 @@ public class Graph {
 
     }
 
-    /*
+    /**
      * Konstruktor generujący graf z informacji pobranych z GUI.
+     * @param graphGenInfo informacje o żądanym grafie
      */
     public Graph(GraphGenInfo graphGenInfo) {
         this();
@@ -136,11 +142,21 @@ public class Graph {
 
     }
 
+    /**
+     * @param w_min minimalna wartość wagi
+     * @param w_max maksymalna wartość wagi
+     * @return losową wartość wagi
+     */
     private static double rand(double w_min, double w_max) {
         Random r = new Random();
         return (w_min + (w_max - w_min) * r.nextDouble());
     }
 
+    /**
+     * @param d macierz kosztów dojścia w grafie Dijkstry
+     * @param s macierz S
+     * @return najmniejszy koszt dojścia (nie w S)
+     */
     private static int getIndexOfSmallestD(double[] d, Collection<Integer> s) {
         int ind = -1;
         for (int i = 0; i < d.length; i++)
@@ -150,8 +166,11 @@ public class Graph {
 
     }
 
-    /*
+    /**
      * Metoda ustawia wielkość grafu wg. zadanych wartości.
+     *
+     * @param rows    liczba wierszy
+     * @param columns liczba kolumn
      */
     private void setSize(int rows, int columns) {
 
@@ -161,12 +180,15 @@ public class Graph {
 
     }
 
-    /*
-     * Metoda zapisuje otwarty graf do pliku. -Filip
+    /**
+     * Metoda zapisuje otwarty graf do pliku.
+     *
+     * @param filename ścieżka pliku do zapisu
+     * @throws IOException         wyjątek występuje w przypadku błędu zapisu
+     * @throws EmptyGraphException jeśli graf jest pusty
      */
     public void saveToFile(String filename) throws IOException, EmptyGraphException {
-        if (getRows() == 0 || getColumns() == 0)
-            throw new EmptyGraphException();
+        if (getRows() == 0 || getColumns() == 0) throw new EmptyGraphException();
         //TODO: zapis grafu do pliku
         relations.sort(Relation::compareTo);
         FileWriter writer = new FileWriter(filename);
@@ -183,8 +205,10 @@ public class Graph {
         writer.close();
     }
 
-    /*
+    /**
      * Zwraca wszystkie relacje. Metoda do użycia przy generowaniu widoku.
+     *
+     * @return lista relacji
      */
     public List<Relation> getRelations() {
         return relations;
@@ -202,8 +226,12 @@ public class Graph {
         return rows * columns;
     }
 
-    /*
+    /**
      * Tworzy relacje: first -> last o wadze weight.
+     *
+     * @param first  pierwszy wierzchołek
+     * @param last   drugi wierzchołek
+     * @param weight waga relacji
      */
     public void createRelation(int first, int last, double weight) {
         if (first < 0 || last >= getSize())
@@ -212,9 +240,12 @@ public class Graph {
 
     }
 
-    /*
+    /**
      * Zwraca listę relacji dla danego punktu from.
      * MUSI BYĆ ZAPEWNIONE POSORTOWANIE RELACJI!!
+     *
+     * @param from wierzchołek
+     * @return lista relacji
      */
     public List<Relation> getPointsRelations(int from) {
         List<Relation> adj = new ArrayList<>();
@@ -230,9 +261,12 @@ public class Graph {
 
     }
 
-    /*
+    /**
      * Zwraca listę id (int) sąsiadów.
      * MUSI BYĆ ZAPEWNIONE POSORTOWANIE RELACJI!!
+     *
+     * @param from wierzchołek
+     * @return lista sąsiadów
      */
     public List<Integer> getAdjacent(int from) {
         List<Integer> adj = new ArrayList<>();
@@ -247,16 +281,20 @@ public class Graph {
         return adj;
     }
 
-    /*
+    /**
      * Zwraca listę wierzchołków do których nie udało się dotrzeć. Jeżeli nie sprawdzialiśmy spójności, to wykonujemy isCoherent().
+     *
+     * @return lista wierzchołków do których nie udało się dotrzeć
      */
     public List<Integer> getIncoherent() {
         if (incoherent == null) isCoherent();
         return incoherent;
     }
 
-    /*
+    /**
      * Sprawdza spójność grafu. Działa an bazie algorytmu BFS.
+     *
+     * @return true jeśli graf jest spójny, false w przeciwnym wypadku
      */
     public boolean isCoherent() {
         if (coherency != null) return coherency;
@@ -293,6 +331,13 @@ public class Graph {
 
     }
 
+    /**
+     * Szuka ścieżki pomiędzy punktami, tworzy macierz kosztów dojścia i poprzedników lub/i z niej korzysta.
+     *
+     * @param first wierzchołek startowy
+     * @param last  wierzchołek końcowy
+     * @return ścieżka
+     */
     public GraphPath findPath(int first, int last) throws GraphException {
         if (getSize() == 0) throw new EmptyGraphException();
         if (first < 0 || last >= getSize()) throw new GraphIndexOutOfBoundsException(getSize() - 1);
@@ -346,6 +391,13 @@ public class Graph {
         return "Graph{" + "relations=" + relations + ", incoherent=" + incoherent + ", rows=" + rows + ", columns=" + columns + '}';
     }
 
+    /**
+     * Kalkuluje ID wierzchołka o podanych row i column.
+     *
+     * @param row    wiersz
+     * @param column kolumna
+     * @return ID wierzchołka
+     */
     public int calculatePointID(int row, int column) {
         return row * getColumns() + column;
     }
