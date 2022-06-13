@@ -46,6 +46,9 @@ public class Controller {
         if (Gui.graph.getSize() == 0) Gui.showSS("Graf jest pusty!");
         else if (selectedEnds == null) selectedEnds = new ArrayList<>();
         else {
+            Gui.graph.d=null;
+
+
             selectedEnds = null;
             rysuj();
         }
