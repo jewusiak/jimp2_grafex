@@ -3,6 +3,8 @@ package GUI;
 import grafex.Graph;
 import grafex.GraphPath;
 import grafexExceptions.GraphException;
+import grafexExceptions.GraphNotCoherentException;
+import grafexExceptions.IllegalGraphFormatException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,20 +74,23 @@ public class Controller {
                     Gui.graph.findPath(selectedEnds.get(0), selectedEnds.get(0));
 
                     Platform.runLater(() -> Gui.drawGraph(pane, Gui.graph.d));
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Platform.runLater(() -> Gui.controller.progressBar.setVisible(false));
+
                 } catch (GraphException e) {
                     Platform.runLater(() -> {
+
                         Gui.showSS(e.getMessage());
                         selectedEnds = null;
                         Gui.drawGraph(pane, Gui.graph.d);
 
                     });
 
+                }finally {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Platform.runLater(() -> Gui.controller.progressBar.setVisible(false));
                 }
             }).start();
         } else {
