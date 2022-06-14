@@ -29,7 +29,7 @@ public class Controller {
     }
 
     public void zapisz(ActionEvent e) {
-        System.out.println("Zapisz");
+        //System.out.println("Zapisz");
         Gui.saveFile();
     }
 

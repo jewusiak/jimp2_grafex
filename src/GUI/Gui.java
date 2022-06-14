@@ -85,7 +85,7 @@ public class Gui extends Application {
 
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile == null) {
-            System.out.println("Nie wybrano pliku!");
+            //System.out.println("Nie wybrano pliku!");
             showSS("Nie wybrano pliku!");
             setG(new Graph());
             return;
@@ -104,7 +104,7 @@ public class Gui extends Application {
         setG(g);
 
 
-        System.out.println(g);
+        //System.out.println(g);
 
 
     }
@@ -220,7 +220,7 @@ public class Gui extends Application {
 
         File selectedFile = fileChooser.showSaveDialog(stage);
         if (selectedFile == null) {
-            System.out.println("Nie wybrano pliku!");
+            //System.out.println("Nie wybrano pliku!");
             return;
         }
         String filename = selectedFile.getPath();
@@ -229,7 +229,7 @@ public class Gui extends Application {
             graph.saveToFile(filename);
         } catch (Exception ex) {
             showSS(ex.getMessage());
-            System.out.println(ex.getMessage());
+            //System.out.println(ex.getMessage());
         }
 
 

@@ -36,7 +36,7 @@ public class GraphCircle extends Circle {
             setOnMouseExited(mouseEvent1 -> {
             });
             Gui.controller.checkNewPaths();
-            System.out.println("clicked");
+            //System.out.println("clicked");
         });
     }
 
